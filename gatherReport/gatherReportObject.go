@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+const (
+	currentPorkPieMarketPrice = 5_000
+)
+
 type Cost struct {
 	JourneyBack int
 	PorkPie     int
@@ -14,15 +18,24 @@ type Cost struct {
 	total       int
 }
 
-func newCost(journeyBack, porkPie, repair int) *Cost {
-	payload := &Cost{
-		JourneyBack: journeyBack,
-		PorkPie:     porkPie,
-		Repair:      repair,
-	}
-	payload.total = (porkPie * 5_000) + journeyBack + repair
-	return payload
+func newCost(kwargs map[string]int) *Cost {
+	var payLoad = new(Cost)
 
+	journeyBack, ok := kwargs["journeyBack"]
+	if ok {
+		payLoad.JourneyBack = journeyBack
+	}
+	porkPie, ok := kwargs["porkPie"]
+	if ok {
+		payLoad.PorkPie = porkPie
+	}
+	repair, ok := kwargs["repair"]
+	if ok {
+		payLoad.Repair = repair
+	}
+
+	payLoad.total = (porkPie * currentPorkPieMarketPrice) + journeyBack + repair
+	return payLoad
 }
 
 type GatherReport struct {
@@ -33,20 +46,20 @@ type GatherReport struct {
 	URL     string
 }
 
-func NewGatherReportRow(url string, journeyback, porkpie, repair, revenue int) *GatherReport {
-	payload := &GatherReport{
+func NewGatherReportRow(url string, kwargs map[string]int) *GatherReport {
+	payLoad := &GatherReport{
 		Date: time.Now(),
-		Cost: newCost(
-			journeyback,
-			porkpie,
-			repair,
-		),
-		Revenue: revenue,
-		URL:     url,
+		Cost: newCost(kwargs),
+		URL:  url,
 	}
 
-	payload.Profit = revenue - payload.Cost.total
-	return payload
+	revenue, ok := kwargs["revenue"]
+	if ok {
+		payLoad.Revenue = revenue
+	}
+	payLoad.Profit = payLoad.Revenue - payLoad.Cost.total
+
+	return payLoad
 }
 
 func (gr *GatherReport) WriteReportRow() error {

@@ -11,16 +11,45 @@ type Cost struct {
 	JourneyBack int
 	PorkPie     int
 	Repair      int
+	total       int
+}
+
+func newCost(journeyBack, porkPie, repair int) *Cost {
+	payload := &Cost{
+		JourneyBack: journeyBack,
+		PorkPie:     porkPie,
+		Repair:      repair,
+	}
+	payload.total = (porkPie * 5_000) + journeyBack + repair
+	return payload
+
 }
 
 type GatherReport struct {
 	Date    time.Time
-	Cost    Cost
+	Cost    *Cost
 	Profit  int
 	Revenue int
+	URL     string
 }
 
-func (gr *GatherReport) WriteReport() error {
+func NewGatherReportRow(url string, journeyback, porkpie, repair, revenue int) *GatherReport {
+	payload := &GatherReport{
+		Date: time.Now(),
+		Cost: newCost(
+			journeyback,
+			porkpie,
+			repair,
+		),
+		Revenue: revenue,
+		URL:     url,
+	}
+
+	payload.Profit = revenue - payload.Cost.total
+	return payload
+}
+
+func (gr *GatherReport) WriteReportRow() error {
 	tmpl, err := template.New("readme").Parse(readmeTemplate)
 	if err != nil {
 		return fmt.Errorf("%v:%v", parsingTemplateErr, err)
@@ -39,4 +68,4 @@ func (gr *GatherReport) WriteReport() error {
 }
 
 const readmeTemplate = `
-{{range .}}| {{.Date.Format "2006-01-02"}} | {{.Cost.JourneyBack}} | {{.Cost.PorkPie}} | {{.Cost.Repair}} | {{.Profit}} | {{.Revenue}} |{{end}}`
+{{range .}}| {{.Date.Format "2006-01-02"}} | {{.Cost.JourneyBack}} | {{.Cost.PorkPie}} | {{.Cost.Repair}} | {{.Profit}} | {{.Revenue}} | {{.URL}} |{{end}}`

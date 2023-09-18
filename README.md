@@ -1,4 +1,5 @@
 # gathering report
 
-| Date       | Journey Back | Pork Pie | Repair | Profit | Revenue |
-|------------|--------------|----------|--------|--------|---------|
+| Date       | Journey Back | Pork Pie | Repair | Profit   | Revenue  | Screenshot Url                                                                                                                                                                                    | 
+|------------|--------------|----------|--------|----------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 2023-09-18 | 490000       | 6        | 98000  | 11382000 | 12000000 | [Screenshot_2023-09-18_11-31-29.png](https://lh3.googleusercontent.com/drive-viewer/AITFw-w-Jb8lcvOk0cHH7LOtOoYb3CMw8t7g_bmusxdazIlElLuYXgY-sODDykfSmmjWZFu1lYGfoMD41rprAQRsMq04Tmci=w1918-h1072) |

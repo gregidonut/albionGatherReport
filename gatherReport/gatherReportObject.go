@@ -38,12 +38,5 @@ func (gr *GatherReport) WriteReport() error {
 	return nil
 }
 
-const readmeTemplate = `# Project Report
-
-| Date       | Journey Back | Pork Pie | Repair | Profit | Revenue |
-|------------|--------------|----------|--------|--------|---------|
-{{range .}}
-| {{.Date.Format "2006-01-02"}} | {{.Cost.JourneyBack}} | {{.Cost.PorkPie}} | {{.Cost.Repair}} | {{.Profit}} | {{.Revenue}} |
-
-{{end}}
-`
+const readmeTemplate = `
+{{range .}}| {{.Date.Format "2006-01-02"}} | {{.Cost.JourneyBack}} | {{.Cost.PorkPie}} | {{.Cost.Repair}} | {{.Profit}} | {{.Revenue}} |{{end}}`
